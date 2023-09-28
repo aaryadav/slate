@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "User 1 Task",
+      "completed": true
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "name": "User 1 Task 2",
+      "completed": true
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "name": "User 2 Task 1",
+      "completed": true
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "name": "User 1 Task 3",
+      "completed": false
+    },
+    {
+      "id": 1695050503242,
+      "userId": 1,
+      "name": "hello",
+      "completed": false
+    }
+  ]
+}
