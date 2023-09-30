@@ -34,7 +34,7 @@ h3 {
 .content-container {
     background-color: #F2F4F9;
 
-    @apply flex flex-grow text-lg p-6 md:px-36 md:py-16
+    @apply flex flex-grow text-lg p-10 mt-20 md:px-36 md:py-16 md:mt-20
 }
 
 .content {
@@ -57,7 +57,7 @@ h3 {
 /* COMPONENTS */
 
 .navbar {
-    @apply flex justify-between items-center w-full p-6 border-b
+    @apply flex justify-between items-center w-full p-6 border-b fixed top-0 z-40 bg-white
 }
 
 .footer {
