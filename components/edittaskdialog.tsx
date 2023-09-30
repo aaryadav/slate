@@ -65,24 +65,21 @@ const EditTaskDialog = ({ task, onTaskCreated }: any) => {
         <>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger>
-                    <li key={task.id}
-                        className={`w-full inline-flex items-center justify-between
-                                                group p-1 rounded
-                                                cursor-pointer hover:bg-indigo-50/70`}>
+                    <div key={task.id}
+                        className={`task-list-item cursor-pointer`}>
                         <div className="task-label">
                             <label
                                 htmlFor={`task-${task.id}`}
-                                className="ml-2"
                             >
                                 {task.title}
                             </label>
                         </div>
-                        <div className="task-tools opacity-0 group-hover:opacity-100">
+                        {/* <div className="task-tools opacity-0 group-hover:opacity-100">
                             <MoreHorizontal size={15} color='#6e6e6e' />
-                        </div>
-                    </li>
+                        </div> */}
+                    </div>
                 </DialogTrigger>
-                <DialogContent className={`${cn("w-[340px] h-[650px] rounded-lg md:w-auto md:max-h-auto")}`}>
+                <DialogContent className={`${cn("w-[340px] rounded-lg md:w-full md:max-h-auto")}`}>
                     <DialogHeader>
                         <DialogTitle className='mb-4'>Edit Task</DialogTitle>
                         <div className="dialog-content space-y-6">

@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import Link from 'next/link';
+
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from "@/components/ui/label"
@@ -22,6 +24,7 @@ import { cn } from '@/lib/utils';
 
 import { X } from 'lucide-react'
 import { MoreHorizontal } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import "@/public/clip.png"
 import "@/public/constr.png"
@@ -121,22 +124,19 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                                                 />
                                             ) : (
                                                 <>
-                                                    <li key={task.id}
-                                                        className={`w-full inline-flex items-center justify-between
-                                                group p-1 rounded
-                                                hover:bg-indigo-50/70`}>
+                                                    <div key={task.id}
+                                                        className={`task-list-item`}>
                                                         <div className="task-label">
                                                             <label
                                                                 htmlFor={`task-${task.id}`}
-                                                                className="ml-2"
                                                             >
                                                                 {task.title}
                                                             </label>
                                                         </div>
-                                                        <div className="task-tools opacity-0 group-hover:opacity-100">
+                                                        {/* <div className="task-tools opacity-0 group-hover:opacity-100">
                                                             <MoreHorizontal size={15} color='#6e6e6e' />
-                                                        </div>
-                                                    </li>
+                                                        </div> */}
+                                                    </div>
                                                 </>
                                             )
                                         ))}

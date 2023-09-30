@@ -82,7 +82,12 @@ h3 {
 }
 
 .task-list {
-    @apply list-disc pl-6
+    @apply list-disc pl-4
+}
+
+.task-list-item {
+    @apply w-full
+    p-2 rounded text-left hover:bg-indigo-50/70
 }
 
 ::-webkit-scrollbar {
