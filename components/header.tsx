@@ -35,7 +35,7 @@ const Header = () => {
                         <DropdownMenuTrigger>
                             <UserAvatar
                                 user={{ name: user.name || null, image: user.image || null }}
-                                className="h-8 w-8"
+                                className="border border-black h-8 w-8"
                             />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">

@@ -41,7 +41,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         return acc;
     }, {} as Record<Status, Array<any>>)
 
-    console.log(groupedTasks)
     return NextResponse.json({ groupedTasks })
 
 }

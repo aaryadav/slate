@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* LAYOUT */
 html,
 body {
     margin: 0;
@@ -15,14 +15,14 @@ h3 {
 }
 
 .container {
+    /* background-color: #F2F4F9; */
+
     @apply flex flex-col min-h-screen min-w-full p-0
 }
 
-.navbar {
-    @apply flex justify-between items-center w-full p-10 border-b
-}
-
 .content-container {
+    background-color: #F2F4F9;
+
     @apply flex flex-grow px-36 py-16 text-lg
 }
 
@@ -36,12 +36,14 @@ h3 {
     gap: 60px;
 }
 
-.footer {
-    @apply flex p-10 border-t
+/* COMPONENTS */
+
+.navbar {
+    @apply flex justify-between items-center w-full p-6 border-b
 }
 
-.task-list {
-    @apply list-disc pl-6
+.footer {
+    @apply flex p-6 border-t
 }
 
 .kanban {
@@ -50,10 +52,32 @@ h3 {
     gap: 60px;
 }
 
+
+/* Task Card */
+
 .big-card {
-    @apply rounded-2xl px-4 py-2 hover:shadow-md
+    @apply rounded-2xl px-4 py-2 border-none
 }
 
 .lil-card {
     @apply justify-center content-center hover:shadow
+}
+
+.task-list {
+    @apply list-disc pl-6
+}
+
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: none;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e4e4e7;
+    border-radius: 10px;
 }

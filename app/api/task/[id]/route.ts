@@ -20,48 +20,23 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 
-// Update the task based on id
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
+
     const taskId = params.id;
-    const { title, status, ownerId, groupId, comments, tags } = await request.json();
+    const { title, status, dueAt, ownerId, groupId } = await request.json()
 
-    // Existing comments (those with IDs) for update operation
-    const existingComments = comments.filter((comment: any) => comment.id);
-
-    // New comments (those without IDs) for create operation
-    const newComments = comments.filter((comment: any) => !comment.id);
-
-    const newTask = await prisma.task.update({
+    const updatedTask = await prisma.task.update({
         where: {
-            id: taskId,
+            id: taskId
         },
         data: {
             title,
             status,
-            ownerId,
-            groupId,
-            // Handle existing comments
-            comments: {
-                update: existingComments.map((comment: any) => ({
-                    where: { id: comment.id },
-                    data: { body: comment.body },
-                })),
-                // Handle new comments
-                create: newComments.map((comment: any) => ({
-                    body: comment.body,
-                })),
-            },
-            tags: {
-                upsert: tags.map((tag: any) => ({
-                    where: { name_ownerId: { name: tag.name, ownerId: ownerId } },
-                    create: { name: tag.name, ownerId: ownerId },
-                    update: { name: tag.name },
-                })),
-            },
-        },
-    });
+            dueAt,
+        }
+    })
 
-    return NextResponse.json({ newTask });
+    return NextResponse.json({ updatedTask })
 }
 
 
