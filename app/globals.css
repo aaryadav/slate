@@ -8,6 +8,19 @@ body {
     margin: 0;
     padding: 0;
     font-size: 14px;
+    overflow-x: hidden;
+}
+
+/* For Firefox */
+::-moz-selection {
+    background-color: #e0e7ff;
+    color: #000;
+}
+
+/* For other browsers */
+::selection {
+    background-color: #e0e7ff;
+    color: #000;
 }
 
 h3 {
@@ -15,15 +28,13 @@ h3 {
 }
 
 .container {
-    /* background-color: #F2F4F9; */
-
     @apply flex flex-col min-h-screen min-w-full p-0
 }
 
 .content-container {
     background-color: #F2F4F9;
 
-    @apply flex flex-grow px-36 py-16 text-lg
+    @apply flex flex-grow text-lg p-6 md:px-36 md:py-16
 }
 
 .content {
@@ -31,9 +42,16 @@ h3 {
 }
 
 .home {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 60px;
+    @apply flex flex-col space-y-12
+}
+
+@media (min-width: 768px) {
+    .home {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 60px;
+        @apply space-y-0
+    }
 }
 
 /* COMPONENTS */
@@ -66,7 +84,6 @@ h3 {
 .task-list {
     @apply list-disc pl-6
 }
-
 
 ::-webkit-scrollbar {
     width: 4px;

@@ -14,13 +14,15 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+import { cn } from '@/lib/utils';
+
 import { DatePicker } from "@/components/datepicker"
 import { Plus } from 'lucide-react'
 
 const AddTaskDialog = ({ user, onTaskCreated }: any) => {
 
     const [title, setTitle] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState("TODO");
     const [dueAt, setDueAt] = useState(null);
 
     const [open, setOpen] = useState(false);
@@ -64,6 +66,7 @@ const AddTaskDialog = ({ user, onTaskCreated }: any) => {
 
     return (
         <>
+
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger>
                     <Label
@@ -77,51 +80,52 @@ const AddTaskDialog = ({ user, onTaskCreated }: any) => {
                         <Plus size={20} />
                     </Label>
                 </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle className='mb-4'>Add New Task</DialogTitle>
-                        <div className="dialog-content space-y-6">
-                            <div className="task-title">
-                                <Input
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    placeholder='Enter Task Title'
-                                />
-                            </div>
-                            <div className="task-status">
-                                <RadioGroup
-                                    defaultValue="TODO"
-                                    onValueChange={(e) => {
-                                        handleStatusChange(e)
-                                    }}
-                                >
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="TODO" id="option-one" />
-                                        <Label htmlFor="option-one">To Do</Label>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="DOING" id="option-two" />
-                                        <Label htmlFor="option-two">In Progress</Label>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="DONE" id="option-three" />
-                                        <Label htmlFor="option-three">Done</Label>
-                                    </div>
-                                </RadioGroup>
+                    <DialogContent className={`${cn("w-[340px] rounded-lg md:w-full md:max-h-auto")}`}>
+                        <DialogHeader>
+                            <DialogTitle className='mb-4'>Add New Task</DialogTitle>
+                            <div className="dialog-content space-y-6">
+                                <div className="task-title">
+                                    <Input
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        placeholder='Enter Task Title'
+                                    />
+                                </div>
+                                <div className="task-status">
+                                    <RadioGroup
+                                        defaultValue="TODO"
+                                        onValueChange={(e) => {
+                                            handleStatusChange(e)
+                                        }}
+                                    >
+                                        <div className="flex items-center space-x-2">
+                                            <RadioGroupItem value="TODO" id="option-one" />
+                                            <Label htmlFor="option-one">To Do</Label>
+                                        </div>
+                                        <div className="flex items-center space-x-2">
+                                            <RadioGroupItem value="DOING" id="option-two" />
+                                            <Label htmlFor="option-two">In Progress</Label>
+                                        </div>
+                                        <div className="flex items-center space-x-2">
+                                            <RadioGroupItem value="DONE" id="option-three" />
+                                            <Label htmlFor="option-three">Done</Label>
+                                        </div>
+                                    </RadioGroup>
 
+                                </div>
+                                <div className="task-date">
+                                    <DatePicker selectedDate={null} onDateChange={handleDateChange} />
+                                </div>
                             </div>
-                            <div className="task-date">
-                                <DatePicker selectedDate={null} onDateChange={handleDateChange} />
-                            </div>
+                        </DialogHeader>
+                        <div className='absolute bottom-4 right-4'>
+                            <Button onClick={handleTaskCreation}>
+                                OK
+                            </Button>
                         </div>
-                    </DialogHeader>
-                    <div className='absolute bottom-4 right-4'>
-                        <Button onClick={handleTaskCreation}>
-                            OK
-                        </Button>
-                    </div>
-                </DialogContent>
-            </Dialog></>
+                    </DialogContent>
+            </Dialog>
+        </>
     )
 }
 

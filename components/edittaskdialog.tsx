@@ -82,7 +82,7 @@ const EditTaskDialog = ({ task, onTaskCreated }: any) => {
                         </div>
                     </li>
                 </DialogTrigger>
-                <DialogContent className={`${cn("h-[650px]")}`} >
+                <DialogContent className={`${cn("w-[340px] h-[650px] rounded-lg md:w-auto md:max-h-auto")}`}>
                     <DialogHeader>
                         <DialogTitle className='mb-4'>Edit Task</DialogTitle>
                         <div className="dialog-content space-y-6">
