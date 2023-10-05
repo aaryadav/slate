@@ -134,9 +134,6 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                                                                 {task.title}
                                                             </label>
                                                         </div>
-                                                        {/* <div className="task-tools opacity-0 group-hover:opacity-100">
-                                                            <MoreHorizontal size={15} color='#6e6e6e' />
-                                                        </div> */}
                                                     </div>
                                                 </>
                                             )

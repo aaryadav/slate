@@ -94,13 +94,25 @@ export default function Kanban({ params, onTaskCreated }: any) {
             <div className="tasks mb-4 flex flex-col space-y-6">
               {(groupedTasks as any)[status]?.map((task: any) => (
                 <Card key={task.id} className="flex flex-col lil-card px-5 py-3">
-                  <Dialog open={open} onOpenChange={setOpen}>
-                    <EditTaskDialog
-                      key={task.id}
-                      task={task}
-                      onTaskCreated={handleTaskCreated}
-                    />
-                  </Dialog>
+                  {isSignedInUser ? (
+                    <Dialog open={open} onOpenChange={setOpen}>
+                      <EditTaskDialog
+                        key={task.id}
+                        task={task}
+                        onTaskCreated={handleTaskCreated}
+                      />
+                    </Dialog>
+                  ) : (
+                    <CardContent className="text-left px-2 py-2 space-y-3">
+                      <div className="task-title">{task.title}</div>
+                      {/* <div className="task-tags space-x-3 flex">
+                                {tags.map((tag) => (
+                                    <div key={tag} className="tag w-fit rounded-full bg-indigo-300 text-white px-3 py-1">{tag}</div>
+                                ))}
+                            </div> */}
+
+                    </CardContent>
+                  )}
                 </Card>
               ))}
             </div>
