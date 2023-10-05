@@ -66,8 +66,8 @@ h3 {
 
 .kanban {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 60px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 49px;
 }
 
 
@@ -78,7 +78,7 @@ h3 {
 }
 
 .lil-card {
-    @apply justify-center content-center hover:shadow
+    @apply rounded-2xl justify-center content-center border-none
 }
 
 .task-list {

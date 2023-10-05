@@ -103,7 +103,7 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                     taskCategories.map(category => (
                         user.tasks[category] && user.tasks[category].length > 0 && (
                             <div className="task-section mb-3" key={category}>
-                                <div className="task-state flex items-center lowercase capitalize font-medium">
+                                <div className="task-state flex items-center font-medium">
                                     {category === "DOING" ? (
                                         <span>🚧</span>
                                     ) : category === "DONE" ? (
@@ -118,6 +118,7 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                                         {user.tasks[category].map((task: any) => (
                                             isSignedInUser ? (
                                                 <EditTaskDialog
+                                                    page={"home"}
                                                     key={task.id}
                                                     task={task}
                                                     onTaskCreated={onTaskCreated}
@@ -154,9 +155,9 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                         onTaskCreated={onTaskCreated}
                     />
                 )}
-                {/* <Link href={`/kanban/${user.id}`} className='rounded-full p-2 bg-zinc-100'>
+                <Link href={`/kanban/${user.id}`} className='rounded-full p-2 bg-zinc-100'>
                     <ArrowRight size={20} strokeWidth={1} />
-                </Link> */}
+                </Link>
             </CardFooter>
         </Card>
     )

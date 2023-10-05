@@ -9,20 +9,42 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { Task } from '@prisma/client';
 
-export default function Kanban({ params }: { params: { id: string } }) {
+import { EditTaskDialog } from "@/components/edittaskdialog"
+import { AddTaskDialog } from "@/components/addtaskdialog"
+import { stat } from 'fs';
+
+
+export default function Kanban({ params, onTaskCreated }: any) {
   const { data: session, status } = useSession();
+
   const user = session?.user;
   const userId = (user as any)?.id;
 
   const ownerId = params.id
 
-  const [groupedTasks, setGroupedTasks] = useState({});
-  const [newTasks, setNewTasks] = useState({ DOING: '', TODO: '', DONE: '' });
-  const [newTaskAdded, setNewTaskAdded] = useState(false);
+  const isSignedInUser = userId === ownerId;
 
-  type TaskStatus = 'DOING' | 'TODO' | 'DONE';
+
+  const [groupedTasks, setGroupedTasks] = useState({});
+  const [tasks, setTasks] = useState<any>([]);
+
+
+  const [open, setOpen] = useState(false);
+
+
+  type TaskStatus = 'TODO' | 'DOING' | 'DONE';
 
 
   useEffect(() => {
@@ -32,59 +54,60 @@ export default function Kanban({ params }: { params: { id: string } }) {
       setGroupedTasks(data.groupedTasks);
     };
     fetchData();
-  }, [newTaskAdded]);
+  }, [tasks]);
 
-  const createNewTask = async (status: TaskStatus) => {
-    await fetch('/api/task/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: newTasks[status],
-        status,
-        ownerId: userId,
-        groupId: 1
-      }),
-    });
 
-    // Clear the input for that status
-    setNewTasks({ ...newTasks, [status]: '' });
-    setNewTaskAdded(prev => !prev);
+  const handleTaskCreated = (newTask: any) => {
+    setTasks((prevTasks: any) => [...prevTasks, newTask]);
   };
-  const sections: TaskStatus[] = ['DOING', 'TODO', 'DONE'];
+
+  const sections: TaskStatus[] = ['TODO', 'DOING', 'DONE'];
 
 
   return (
-    <div className="kanban">
-      {sections.map((status: TaskStatus) => (
-        <div key={status} className="section ">
-          <div className="section-title mb-4">
-            <h3>{status}</h3>
-          </div>
-          <div className="tasks mb-4 flex flex-col space-y-3">
-            {(groupedTasks as any)[status]?.map((task: any) => (
-              <Link key={task.id} href={`/task-thread/${task.id}`}>
-                <Card className="flex lil-card">
-                  <CardContent className="px-2 py-2">{task.title}</CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-          {userId && userId === ownerId && (
-            <div className="tools flex space-x-3">
-              <Input
-                placeholder="Add task"
-                value={newTasks[status] || ''}
-                onChange={(e) => setNewTasks({ ...newTasks, [status]: e.target.value })}
-              />
-              <Button onClick={() => createNewTask(status)} variant="outline">
-                +
-              </Button>
-            </div>
-          )}
+    <div className='kanban-container'>
+      {isSignedInUser && (
+        <div className="tools flex space-x-3 mb-10">
+          <AddTaskDialog
+            user={user}
+            onTaskCreated={handleTaskCreated}
+          />
         </div>
-      ))}
+      )}
+      <div className="kanban">
+        {sections.map((status: TaskStatus) => (
+          <div key={status} className="section">
+            <div className="flex items-center justify-between section-title mb-4 ">
+              <div><h3>
+                {status === "DOING" ? (
+                  <span>🚧</span>
+                ) : status === "DONE" ? (
+                  <span>🎉</span>
+                ) : (
+                  <span>📋</span>
+                )}
+                &ensp;{status === "DOING" ? "IN PROGRESS" : status}
+
+              </h3></div>
+
+            </div>
+            <div className="tasks mb-4 flex flex-col space-y-6">
+              {(groupedTasks as any)[status]?.map((task: any) => (
+                <Card key={task.id} className="flex flex-col lil-card px-5 py-3">
+                  <Dialog open={open} onOpenChange={setOpen}>
+                    <EditTaskDialog
+                      key={task.id}
+                      task={task}
+                      onTaskCreated={handleTaskCreated}
+                    />
+                  </Dialog>
+                </Card>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+

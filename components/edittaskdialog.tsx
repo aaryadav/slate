@@ -1,3 +1,5 @@
+import { Card, CardContent } from '@/components/ui/card';
+
 import {
     Dialog,
     DialogContent,
@@ -19,7 +21,9 @@ import { cn } from '@/lib/utils';
 import { MoreHorizontal } from 'lucide-react'
 
 
-const EditTaskDialog = ({ task, onTaskCreated }: any) => {
+const EditTaskDialog = ({ page, task, onTaskCreated }: any) => {
+    const tags = ["Primary", "Physics"];
+
     const [title, setTitle] = useState(task.title);
     const [status, setStatus] = useState(task.status);
     const [dueAt, setDueAt] = useState(task.dueAt);
@@ -65,19 +69,28 @@ const EditTaskDialog = ({ task, onTaskCreated }: any) => {
         <>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger>
-                    <div key={task.id}
-                        className={`task-list-item cursor-pointer`}>
-                        <div className="task-label">
-                            <label
-                                htmlFor={`task-${task.id}`}
-                            >
-                                {task.title}
-                            </label>
+                    {page === "home" ? (
+                        <div key={task.id}
+                            className={`task-list-item cursor-pointer`}>
+                            <div className="task-label">
+                                <label
+                                    htmlFor={`task-${task.id}`}
+                                >
+                                    {task.title}
+                                </label>
+                            </div>
                         </div>
-                        {/* <div className="task-tools opacity-0 group-hover:opacity-100">
-                            <MoreHorizontal size={15} color='#6e6e6e' />
-                        </div> */}
-                    </div>
+                    ) : (
+                        <CardContent className="text-left px-2 py-2 space-y-3">
+                            <div className="task-title">{task.title}</div>
+                            <div className="task-tags space-x-3 flex">
+                                {tags.map((tag) => (
+                                    <div key={tag} className="tag w-fit rounded-full bg-indigo-300 text-white px-3 py-1">{tag}</div>
+                                ))}
+                            </div>
+
+                        </CardContent>
+                    )}
                 </DialogTrigger>
                 <DialogContent className={`${cn("w-[340px] rounded-lg md:w-full md:max-h-auto")}`}>
                     <DialogHeader>
