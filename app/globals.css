@@ -38,7 +38,7 @@ h3 {
 }
 
 .content {
-    @apply w-full flex justify-center
+    @apply w-full
 }
 
 .home {
