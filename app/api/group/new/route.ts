@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
-const generateInviteCode = (name) => {
+const generateInviteCode = (name: any) => {
     const inviteCodeBase = name.split(' ').join('').toLowerCase();
     const randomNumber = Math.floor(Math.random() * 9000) + 1000;
 

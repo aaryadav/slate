@@ -10,12 +10,13 @@ import { Plus } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 
-const GroupActionDialog = ({ user, onTaskCreated }) => {
+const GroupActionDialog = ({ user, onTaskCreated }: any) => {
 
     const [name, setName] = useState('');
-    const [inviteCode, setInviteCode] = useState('');
+    const [inviteKey, setinviteKey] = useState('');
 
     const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");
 
     const createGroup = async () => {
         const adminId = user.id;
@@ -29,21 +30,23 @@ const GroupActionDialog = ({ user, onTaskCreated }) => {
         });
 
         const responseData = await response.json();
+        const receivedinviteCode = responseData.newGroup.inviteCode;
         onTaskCreated(responseData);
-        setOpen(false);
+        setMessage(`🔑 Invite Code: ${receivedinviteCode}`)
+        // setOpen(false);
     }
 
     const joinGroup = async () => {
         const userId = user.id;
 
         console.log(userId);
-        console.log(inviteCode);
+        console.log(inviteKey);
         const response = await fetch('/api/group/join', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userId, inviteCode }),
+            body: JSON.stringify({ userId, inviteKey }),
         });
 
         const responseData = await response.json();
@@ -71,11 +74,12 @@ const GroupActionDialog = ({ user, onTaskCreated }) => {
                 >
                     Create Group
                 </Button>
+                {message}
                 <br />OR <br />
                 <Input
                     placeholder="Join using invite code"
-                    value={inviteCode}
-                    onChange={(e) => { setInviteCode(e.target.value) }}
+                    value={inviteKey}
+                    onChange={(e) => { setinviteKey(e.target.value) }}
                 />
                 <Button
                     variant={"outline"}

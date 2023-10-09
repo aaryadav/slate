@@ -8,13 +8,13 @@ const Content = ({ signedInUser }: any) => {
 
 	const [users, setUsers] = useState<any>(null);
 	const [tasks, setTasks] = useState<any>([]);
-	const [groups, setGroups] = useState([]);
+	const [groups, setGroups] = useState<any>([]);
 
 	const handleTaskCreated = (newTask: any) => {
 		setTasks((prevTasks: any) => [...prevTasks, newTask]);
 	};
 
-	async function fetchData(groupId) {
+	async function fetchData(groupId: any) {
 		try {
 			console.log(`Requesting Data... ${groupId}`)
 			const response = await fetch(`/api/group/${groupId}`);
@@ -43,7 +43,9 @@ const Content = ({ signedInUser }: any) => {
 	}, [signedInUser]);
 
 	useEffect(() => {
-		fetchData(groups[0].id);
+		if (groups.length > 0) {
+			fetchData(groups[0].id);
+		}
 	}, [tasks, signedInUser, groups]);
 
 

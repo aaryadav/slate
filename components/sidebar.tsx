@@ -1,8 +1,24 @@
+import { useState, useEffect } from 'react';
+
 import Link from 'next/link'
 import { GroupActionDialog } from "@/components/groupactiondialog"
 
 const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: any) => {
     const user = signedInUser;
+
+
+    const [activeGroupId, setActiveGroupId] = useState(null);
+
+    useEffect(() => {
+        if (groups.length > 0 && activeGroupId === null) {
+            setActiveGroupId(groups[0].id);
+        }
+    }, [groups, activeGroupId]);
+
+    const handleGroupClick = (groupId: any) => {
+        fetchData(groupId);
+        setActiveGroupId(groupId);
+    }
 
     return (
         <div className='border-r bg-white left-0 top-20 px-4 py-10 space-y-8 w-[200px] h-full fixed'>
@@ -16,13 +32,14 @@ const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: any) => {
             </div>
 
             <div className="flex flex-col groups space-y-6">
-                {groups.map((group) => (
+                {groups.map((group: any) => (
                     <div
                         key={group.id}
-                        onClick={() => fetchData(group.id)}
+                        onClick={() => handleGroupClick(group.id)}
+                        className={`group-container ${group.id === activeGroupId ? 'active' : ''}`}
                     >
                         <div
-                            className="group cursor-pointer px-4 py-2 bg-indigo-100 text-indigo-500 font-bold rounded-lg"
+                            className={`group relative cursor-pointer px-4 py-2 rounded-lg bg-indigo-100`}
                         >
                             {group.name}
                         </div>

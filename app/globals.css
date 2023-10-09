@@ -102,3 +102,18 @@ h3 {
     background-color: #e4e4e7;
     border-radius: 10px;
 }
+
+
+/* In your CSS */
+.group-container.active .group::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 38px;
+    border-radius: 6px;
+    @apply bg-indigo-500
+}

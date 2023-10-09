@@ -39,7 +39,7 @@ const Groups = () => {
             <div className="page-title font-bold text-2xl mb-8">
                 Groups
             </div>
-            {groups.map((group) => (
+            {groups.map((group: any) => (
                 <Card
                     className="big-card group-card w-full md:w-[380px] md:max-h-[520px]  relative"
                     key={group.id}
