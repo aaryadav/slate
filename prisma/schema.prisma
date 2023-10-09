@@ -111,10 +111,11 @@ model Tags {
 }
 
 model Group {
-  id      Int    @id @default(autoincrement())
-  name    String
-  adminId String
-  admin   User   @relation("admin", fields: [adminId], references: [id])
+  id         Int     @id @default(autoincrement())
+  name       String
+  adminId    String
+  admin      User    @relation("admin", fields: [adminId], references: [id])
+  inviteCode String? @unique
 
   Task    Task[]
   members User[]

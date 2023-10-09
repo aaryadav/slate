@@ -57,7 +57,7 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
 
     return (
         <Card
-            className={`${cn("w-full md:w-[380px] md:max-h-[520px]")} big-card relative`}
+            className={`${cn("w-full md:w-[380px] md:max-h-[450px]")} big-card relative`}
             key={user.id}
         >
             <CardHeader>

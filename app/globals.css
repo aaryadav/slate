@@ -34,7 +34,7 @@ h3 {
 .content-container {
     background-color: #F2F4F9;
 
-    @apply flex flex-grow text-lg p-10 mt-20 md:px-36 md:py-16 md:mt-20
+    @apply flex flex-grow text-lg p-10 mt-20 md:px-36 md:py-24 md:mt-20
 }
 
 .content {
@@ -49,19 +49,19 @@ h3 {
     .home {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 60px;
-        @apply space-y-0
+        gap: 40px;
+        @apply space-y-0 mx-40
     }
 }
 
 /* COMPONENTS */
 
 .navbar {
-    @apply flex justify-between items-center w-full p-6 border-b fixed top-0 z-40 bg-white
+    @apply flex justify-between items-center border-b w-full p-6 fixed top-0 z-40 bg-white
 }
 
 .footer {
-    @apply flex p-6 border-t
+    @apply flex p-6 border-t bg-white
 }
 
 .kanban {
@@ -86,8 +86,7 @@ h3 {
 }
 
 .task-list-item {
-    @apply w-full
-    p-2 rounded text-left hover:bg-indigo-50/70
+    @apply w-full p-2 rounded text-left hover:bg-indigo-50/70
 }
 
 ::-webkit-scrollbar {

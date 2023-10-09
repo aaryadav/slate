@@ -1,0 +1,41 @@
+import { type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient();
+
+const generateInviteCode = () => {
+    const inviteCode = "pixelbuds";
+    return inviteCode;
+}
+
+export async function POST(request: Request) {
+
+    const { name, adminId } = await request.json()
+
+    try {
+        const inviteCode = generateInviteCode();
+
+        // Create a new group
+        const newGroup = await prisma.group.create({
+            data: {
+                name: name,
+                adminId: adminId,
+                inviteCode: inviteCode,
+                members: {
+                    connect: {
+                        id: adminId,
+                    },
+                },
+            },
+        });
+
+        return NextResponse.json({ newGroup });
+
+
+    } catch (error) {
+        console.error('Error creating a new group: ', error);
+        throw error;
+    }
+}

@@ -15,12 +15,22 @@ function groupTasksByStatus(users: any) {
     }));
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+
     const headers = request.headers;
+    const groupId = params.id;
+
     const users = await prisma.user.findMany({
+        where: {
+            groups: {
+                some: {
+                    id: parseInt(groupId),
+                },
+            },
+        },
         include: {
             tasks: true,
-        }
+        },
     })
 
     const groupedTasks = groupTasksByStatus(users);
