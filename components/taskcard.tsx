@@ -55,10 +55,6 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
         }
     };
 
-    useEffect(() => {
-        console.log(user.tasks["DOING"][0].dueAt)
-    })
-
     return (
         <Card
             className={`${cn("w-full md:w-[420px] md:max-h-[450px]")} big-card relative`}
@@ -134,7 +130,7 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                                                 <>
                                                     <div key={task.id}
                                                         className={`task-list-item`}>
-                                                        <div className="task-label flex justify-between">
+                                                        <div className="task-label flex justify-between items-center">
                                                             <label
                                                                 htmlFor={`task-${task.id}`}
                                                                 className='max-w-[210px]'

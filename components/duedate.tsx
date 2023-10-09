@@ -5,7 +5,7 @@ const DueDate = ({ task }: any) => {
     const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(date);
 
     return (
-        <p className='flex w-[75px] justify-center white-space-nowrap font-medium text-zinc-600 p-2 border rounded-md'>
+        <p className='flex w-[75px] justify-center white-space-nowrap font-medium text-zinc-600 p-2 py-1 border rounded-lg'>
             {formattedDate}
         </p>
     );

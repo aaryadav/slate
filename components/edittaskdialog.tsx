@@ -74,7 +74,7 @@ const EditTaskDialog = ({ page, task, onTaskCreated }: any) => {
                     {page === "home" ? (
                         <div key={task.id}
                             className={`task-list-item cursor-pointer`}>
-                            <div className="task-label flex justify-between">
+                            <div className="task-label flex justify-between items-center">
                                 <label
                                     className='max-w-[210px]'
                                     htmlFor={`task-${task.id}`}

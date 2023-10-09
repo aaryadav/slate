@@ -38,11 +38,16 @@ h3 {
 }
 
 .content {
-    @apply w-full
+    @apply w-full flex justify-center
 }
 
 .home {
     @apply flex flex-col space-y-12
+}
+
+.homepage {
+    display: flex;
+    @apply mx-20
 }
 
 @media (min-width: 768px) {
