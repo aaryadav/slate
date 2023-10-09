@@ -50,7 +50,7 @@ h3 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 40px;
-        @apply space-y-0 mx-40
+        @apply space-y-0 mx-20
     }
 }
 
