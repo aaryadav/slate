@@ -16,6 +16,8 @@ import { Input } from '@/components/ui/input';
 import { DatePicker } from "@/components/datepicker";
 import { useState, useEffect } from "react";
 
+import { DueDate } from '@/components/duedate';
+
 import { cn } from '@/lib/utils';
 
 import { MoreHorizontal } from 'lucide-react'
@@ -67,17 +69,21 @@ const EditTaskDialog = ({ page, task, onTaskCreated }: any) => {
 
     return (
         <>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={setOpen} key={task.id}>
                 <DialogTrigger>
                     {page === "home" ? (
                         <div key={task.id}
                             className={`task-list-item cursor-pointer`}>
-                            <div className="task-label">
+                            <div className="task-label flex justify-between">
                                 <label
+                                    className='max-w-[210px]'
                                     htmlFor={`task-${task.id}`}
                                 >
                                     {task.title}
                                 </label>
+                                <div className="task-due-date">
+                                    <DueDate task={task} />
+                                </div>
                             </div>
                         </div>
                     ) : (

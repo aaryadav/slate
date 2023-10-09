@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 
@@ -19,6 +19,7 @@ import {
 
 import { EditTaskDialog } from "@/components/edittaskdialog"
 import { AddTaskDialog } from "@/components/addtaskdialog"
+import { DueDate } from "@/components/duedate"
 
 import { cn } from '@/lib/utils';
 
@@ -54,15 +55,18 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
         }
     };
 
+    useEffect(() => {
+        console.log(user.tasks["DOING"][0].dueAt)
+    })
 
     return (
         <Card
-            className={`${cn("w-full md:w-[380px] md:max-h-[450px]")} big-card relative`}
+            className={`${cn("w-full md:w-[420px] md:max-h-[450px]")} big-card relative`}
             key={user.id}
         >
             <CardHeader>
                 <CardTitle>{user.name}</CardTitle>
-                <div className="mood-card flex">
+                <div className="mood-card flex" key="">
                     {mood ? (
                         <div
                             className="current-status min-w-1/2 max-w-full justify-between flex mt-2 space-x-3 items-center px-4 py-2 shadow-lg text-sm rounded-xl"
@@ -96,7 +100,10 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                 </div>
             </CardHeader>
 
-            <CardContent className={`${cn("h-[320px] mb-20")} card-content overflow-auto`}>
+            <CardContent
+                key={user}
+                className={`${cn("h-[320px] mb-20")} card-content overflow-auto`}
+            >
                 {totalTasks === 0 ? (
                     <Label>Clean slate, empty fate. <br /> Add tasks!</Label>
                 ) : (
@@ -127,12 +134,16 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                                                 <>
                                                     <div key={task.id}
                                                         className={`task-list-item`}>
-                                                        <div className="task-label">
+                                                        <div className="task-label flex justify-between">
                                                             <label
                                                                 htmlFor={`task-${task.id}`}
+                                                                className='max-w-[210px]'
                                                             >
                                                                 {task.title}
                                                             </label>
+                                                            <div className="task-due-date">
+                                                                <DueDate task={task} />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </>
@@ -159,5 +170,4 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
         </Card>
     )
 }
-
 export { TaskCard }
