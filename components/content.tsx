@@ -1,20 +1,36 @@
 "use client"
+import { UserWithTasks as User } from "@/types";
+import { Task, Group } from "@prisma/client"
 import { useState, useEffect } from 'react';
 
 import { TaskCard } from "@/components/taskcard"
 import { Sidebar } from '@/components/sidebar';
 
-const Content = ({ signedInUser }: any) => {
+type GroupIdType = Group['id'];
 
-	const [users, setUsers] = useState<any>(null);
-	const [tasks, setTasks] = useState<any>([]);
-	const [groups, setGroups] = useState<any>([]);
+export interface HandleTaskCreated {
+	(newTask: Task): void;
+}
 
-	const handleTaskCreated = (newTask: any) => {
-		setTasks((prevTasks: any) => [...prevTasks, newTask]);
+export interface FetchData {
+	(groupId: GroupIdType): Promise<void>;
+}
+
+interface ContentProps {
+	signedInUser: User
+}
+
+const Content = ({ signedInUser }: ContentProps) => {
+
+	const [users, setUsers] = useState<User[]>([]);
+	const [tasks, setTasks] = useState<Task[]>([]);
+	const [groups, setGroups] = useState<Group[]>([]);
+
+	const handleTaskCreated: HandleTaskCreated = (newTask) => {
+		setTasks((prevTasks: Task[]) => [...prevTasks, newTask]);
 	};
 
-	async function fetchData(groupId: any) {
+	const fetchData: FetchData = async (groupId) => {
 		try {
 			console.log(`Requesting Data... ${groupId}`)
 			const response = await fetch(`/api/group/${groupId}`);
@@ -23,8 +39,8 @@ const Content = ({ signedInUser }: any) => {
 			}
 			const result = await response.json();
 
-			const signedInUserData = result.groupedTasks.find((user: any) => user.id === signedInUser.id);
-			const otherUsersData = result.groupedTasks.filter((user: any) => user.id !== signedInUser.id);
+			const signedInUserData = result.groupedTasks.find((user: User) => user.id === signedInUser.id);
+			const otherUsersData = result.groupedTasks.filter((user: User) => user.id !== signedInUser.id);
 			const reorderedUsers = [signedInUserData, ...otherUsersData];
 			setUsers(reorderedUsers);
 		} catch (error) {
@@ -57,7 +73,7 @@ const Content = ({ signedInUser }: any) => {
 				onTaskCreated={handleTaskCreated}
 				fetchData={fetchData}
 			/>
-			{users && (users as any).map((user: any) => (
+			{users && (users).map((user) => (
 				<TaskCard
 					user={user}
 					signedInUser={signedInUser}

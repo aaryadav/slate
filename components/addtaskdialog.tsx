@@ -15,35 +15,55 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 import { cn } from '@/lib/utils';
+import { User } from "@prisma/client"
+import { HandleTaskCreated } from "@/components/content"
 
 import { DatePicker } from "@/components/datepicker"
 import { Plus } from 'lucide-react'
 
-const AddTaskDialog = ({ user, onTaskCreated }: any) => {
+interface AddTaskDialogProps {
+    user: User,
+    onTaskCreated: HandleTaskCreated
+}
 
-    const [title, setTitle] = useState('');
-    const [status, setStatus] = useState("TODO");
-    const [dueAt, setDueAt] = useState(null);
+enum TaskStatus {
+    TODO = 'TODO',
+    DOING = 'DOING',
+    DONE = 'DONE'
+}
+
+const AddTaskDialog = ({ user, onTaskCreated }: AddTaskDialogProps) => {
+    const [title, setTitle] = useState<string>('');
+    const [status, setStatus] = useState<TaskStatus>(TaskStatus.TODO);
+    const [dueAt, setDueAt] = useState<Date>(() => {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        return tomorrow;
+    });
+
+    console.log('In Parent: ', dueAt);
+
 
     const [open, setOpen] = useState(false);
 
-    const handleDateChange = (date: any) => {
+    const handleDateChange = (date: Date) => {
         setDueAt(date);
     };
 
-    const handleStatusChange = (value: any) => {
+    const handleStatusChange = (value: TaskStatus) => {
         switch (value) {
             case 'TODO':
-                setStatus('TODO');
+                setStatus(TaskStatus.TODO);
                 break;
             case 'DOING':
-                setStatus('DOING');
+                setStatus(TaskStatus.DOING);
                 break;
             case 'DONE':
-                setStatus('DONE');
+                setStatus(TaskStatus.DONE);
                 break;
             default:
-                setStatus('TODO');
+                setStatus(TaskStatus.TODO);
         }
     };
 
@@ -80,50 +100,50 @@ const AddTaskDialog = ({ user, onTaskCreated }: any) => {
                         <Plus size={20} />
                     </Label>
                 </DialogTrigger>
-                    <DialogContent className={`${cn("w-[340px] rounded-lg md:w-full md:max-h-auto")}`}>
-                        <DialogHeader>
-                            <DialogTitle className='mb-4'>Add New Task</DialogTitle>
-                            <div className="dialog-content space-y-6">
-                                <div className="task-title">
-                                    <Input
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        placeholder='Enter Task Title'
-                                    />
-                                </div>
-                                <div className="task-status">
-                                    <RadioGroup
-                                        defaultValue="TODO"
-                                        onValueChange={(e) => {
-                                            handleStatusChange(e)
-                                        }}
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            <RadioGroupItem value="TODO" id="option-one" />
-                                            <Label htmlFor="option-one">To Do</Label>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <RadioGroupItem value="DOING" id="option-two" />
-                                            <Label htmlFor="option-two">In Progress</Label>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <RadioGroupItem value="DONE" id="option-three" />
-                                            <Label htmlFor="option-three">Done</Label>
-                                        </div>
-                                    </RadioGroup>
-
-                                </div>
-                                <div className="task-date">
-                                    <DatePicker selectedDate={null} onDateChange={handleDateChange} />
-                                </div>
+                <DialogContent className={`${cn("w-[340px] rounded-lg md:w-full md:max-h-auto")}`}>
+                    <DialogHeader>
+                        <DialogTitle className='mb-4'>Add New Task</DialogTitle>
+                        <div className="dialog-content space-y-6">
+                            <div className="task-title">
+                                <Input
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    placeholder='Enter Task Title'
+                                />
                             </div>
-                        </DialogHeader>
-                        <div className='absolute bottom-4 right-4'>
-                            <Button onClick={handleTaskCreation}>
-                                OK
-                            </Button>
+                            <div className="task-status">
+                                <RadioGroup
+                                    defaultValue="TODO"
+                                    onValueChange={(e) => {
+                                        handleStatusChange(e as TaskStatus)
+                                    }}
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="TODO" id="option-one" />
+                                        <Label htmlFor="option-one">To Do</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="DOING" id="option-two" />
+                                        <Label htmlFor="option-two">In Progress</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="DONE" id="option-three" />
+                                        <Label htmlFor="option-three">Done</Label>
+                                    </div>
+                                </RadioGroup>
+
+                            </div>
+                            <div className="task-date">
+                                <DatePicker selectedDate={dueAt} onDateChange={handleDateChange} />
+                            </div>
                         </div>
-                    </DialogContent>
+                    </DialogHeader>
+                    <div className='absolute bottom-4 right-4'>
+                        <Button onClick={handleTaskCreation}>
+                            OK
+                        </Button>
+                    </div>
+                </DialogContent>
             </Dialog>
         </>
     )

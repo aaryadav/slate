@@ -1,6 +1,12 @@
 import React from 'react'
 
-const DueDate = ({ task }: any) => {
+import { Task } from "@prisma/client"
+
+interface DueDateProps {
+    task: Task
+}
+
+const DueDate = ({ task }: DueDateProps) => {
     const date = new Date(task.dueAt);
     const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(date);
 

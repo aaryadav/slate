@@ -3,9 +3,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import UserIcon from "@/public/usericon.svg"
 
-export function UserAvatar({ user, ...props }: any) {
+import { User } from "@prisma/client"
+
+interface UserAvatarProps {
+    user: User
+}
+export function UserAvatar({ user }: UserAvatarProps) {
     return (
-        <Avatar {...props}>
+        <Avatar>
             {user.image ? (
                 <AvatarImage alt="Picture" src={user.image} />
             ) : (

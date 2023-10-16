@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react';
 
-import Link from 'next/link'
+// import { User } from "next-auth"
+import { UserWithTasks as User } from '@/types';
+import { Group } from "@prisma/client"
+import { FetchData, HandleTaskCreated } from "@/components/content"
+
 import { GroupActionDialog } from "@/components/groupactiondialog"
 
-const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: any) => {
+interface SidebardProps {
+    signedInUser: User,
+    groups: Group[],
+    onTaskCreated: HandleTaskCreated,
+    fetchData: FetchData
+}
+
+const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: SidebardProps) => {
     const user = signedInUser;
 
-
-    const [activeGroupId, setActiveGroupId] = useState(null);
+    const [activeGroupId, setActiveGroupId] = useState<number | null>(null);
 
     useEffect(() => {
         if (groups.length > 0 && activeGroupId === null) {
@@ -15,7 +25,7 @@ const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: any) => {
         }
     }, [groups, activeGroupId]);
 
-    const handleGroupClick = (groupId: any) => {
+    const handleGroupClick = (groupId: number) => {
         fetchData(groupId);
         setActiveGroupId(groupId);
     }
@@ -32,7 +42,7 @@ const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: any) => {
             </div>
 
             <div className="flex flex-col groups space-y-6">
-                {groups.map((group: any) => (
+                {groups.map((group) => (
                     <div
                         key={group.id}
                         onClick={() => handleGroupClick(group.id)}

@@ -9,8 +9,15 @@ import { Plus } from 'lucide-react'
 
 import { cn } from "@/lib/utils"
 
+import { User } from "@prisma/client"
+import { HandleTaskCreated } from "@/components/content"
 
-const GroupActionDialog = ({ user, onTaskCreated }: any) => {
+interface GroupActionDialogProps {
+    user: User,
+    onTaskCreated: HandleTaskCreated
+}
+
+const GroupActionDialog = ({ user, onTaskCreated }: GroupActionDialogProps) => {
 
     const [name, setName] = useState('');
     const [inviteKey, setinviteKey] = useState('');

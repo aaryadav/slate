@@ -24,22 +24,32 @@ import { DueDate } from "@/components/duedate"
 import { cn } from '@/lib/utils';
 
 import { X } from 'lucide-react'
-import { MoreHorizontal } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
 
-import "@/public/clip.png"
-import "@/public/constr.png"
+import { UserWithTasks as User } from '@/types';
 
-const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
+import { Task, Group } from "@prisma/client"
+import { HandleTaskCreated } from "@/components/content"
+
+type UserMood = User["mood"]
+
+interface TaskCardProps {
+    user: User,
+    signedInUser: User,
+    onTaskCreated: HandleTaskCreated
+}
+
+const TaskCard = ({ user, signedInUser, onTaskCreated }: TaskCardProps) => {
 
     const isSignedInUser = user.id === signedInUser.id;
-    const taskCategories = ["TODO", "DOING", "DONE"];  // Define task categories
+    const taskCategories = ["TODO", "DOING", "DONE"];
+
 
     const totalTasks = Object.values(user.tasks).flat().length;  // Calculate total number of tasks
 
-    const [mood, setMood] = useState(user.mood);
+    const [mood, setMood] = useState<UserMood>(user.mood);
 
-    const handleMoodUpdate = async (newMood: any) => {
+    const handleMoodUpdate = async (newMood: UserMood) => {
         const response = await fetch(`/api/mood/${user.id}`, {
             method: 'PUT',
             headers: {
@@ -97,18 +107,18 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
             </CardHeader>
 
             <CardContent
-                key={user}
+                key={user.id}
                 className={`${cn("h-[320px] mb-20")} card-content overflow-auto`}
             >
                 {totalTasks === 0 ? (
                     <Label>Clean slate, empty fate. <br /> Add tasks!</Label>
                 ) : (
-                    taskCategories.map(category => (
-                        user.tasks[category] && user.tasks[category].length > 0 && (
+                    taskCategories.map((category: string) => (
+                        (user.tasks as any)[category] && (user.tasks as any)[category].length > 0 && (
                             <div className="task-section mb-3" key={category}>
                                 <div className="task-state flex items-center font-medium">
                                     {category === "DOING" ? (
-                                        <span>🚧</span>
+                                        <span>🛠️</span>
                                     ) : category === "DONE" ? (
                                         <span>🎉</span>
                                     ) : (
@@ -118,7 +128,7 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: any) => {
                                 </div>
                                 <div className="tasks">
                                     <ul className="task-list flex flex-col">
-                                        {user.tasks[category].map((task: any) => (
+                                        {(user.tasks as any)[category].map((task: Task) => (
                                             isSignedInUser ? (
                                                 <EditTaskDialog
                                                     page={"home"}

@@ -24,7 +24,6 @@ import { MoreHorizontal } from 'lucide-react'
 
 
 const EditTaskDialog = ({ page, task, onTaskCreated }: any) => {
-    // const tags = ["Primary", "Physics"];
 
     const [title, setTitle] = useState(task.title);
     const [status, setStatus] = useState(task.status);

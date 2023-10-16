@@ -5,7 +5,7 @@ import { Space_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 
 import { getServerSession } from 'next-auth'
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
   description: 'A shared todo list',
 }
 
-export default async function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode
-}) {
+}
 
-  const session = await getServerSession(authOptions as any);
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className={hubot.className}>
