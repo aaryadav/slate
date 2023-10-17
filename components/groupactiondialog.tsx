@@ -14,10 +14,9 @@ import { HandleTaskCreated } from "@/components/content"
 
 interface GroupActionDialogProps {
     user: User,
-    onTaskCreated: HandleTaskCreated
 }
 
-const GroupActionDialog = ({ user, onTaskCreated }: GroupActionDialogProps) => {
+const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
 
     const [name, setName] = useState('');
     const [inviteKey, setinviteKey] = useState('');
@@ -38,9 +37,7 @@ const GroupActionDialog = ({ user, onTaskCreated }: GroupActionDialogProps) => {
 
         const responseData = await response.json();
         const receivedinviteCode = responseData.newGroup.inviteCode;
-        onTaskCreated(responseData);
         setMessage(`🔑 Invite Code: ${receivedinviteCode}`)
-        // setOpen(false);
     }
 
     const joinGroup = async () => {
@@ -57,7 +54,6 @@ const GroupActionDialog = ({ user, onTaskCreated }: GroupActionDialogProps) => {
         });
 
         const responseData = await response.json();
-        onTaskCreated(responseData);
         setOpen(false);
     }
 

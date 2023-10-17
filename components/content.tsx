@@ -67,12 +67,6 @@ const Content = ({ signedInUser }: ContentProps) => {
 
 	return (
 		<div className="home">
-			<Sidebar
-				signedInUser={signedInUser}
-				groups={groups}
-				onTaskCreated={handleTaskCreated}
-				fetchData={fetchData}
-			/>
 			{users && (users).map((user) => (
 				<TaskCard
 					user={user}

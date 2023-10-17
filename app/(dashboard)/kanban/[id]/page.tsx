@@ -1,30 +1,16 @@
 "use client"
 
-import Image from 'next/image';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
-import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog } from "@/components/ui/dialog"
 
 import { User, Task } from '@prisma/client';
 
 import { EditTaskDialog } from "@/components/edittaskdialog"
 import { AddTaskDialog } from "@/components/addtaskdialog"
-import { stat } from 'fs';
-
 
 interface KanbanProps {
   params: {
@@ -41,8 +27,8 @@ interface GroupedTasks {
 export default function Kanban({ params }: KanbanProps) {
   const { data: session, status } = useSession();
 
-  const user = session?.user;
-  const userId = (user as User)?.id;
+  const user = session?.user as User;
+  const userId = user?.id;
 
   const ownerId = params.id
 

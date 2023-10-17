@@ -69,6 +69,10 @@ h3 {
     @apply flex p-6 border-t bg-white
 }
 
+.kanban-container {
+    @apply mx-48
+}
+
 .kanban {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

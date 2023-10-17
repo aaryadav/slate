@@ -1,8 +1,10 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 
 // import { User } from "next-auth"
 import { UserWithTasks as User } from '@/types';
-import { Group } from "@prisma/client"
+import { Task, Group } from "@prisma/client"
 import { FetchData, HandleTaskCreated } from "@/components/content"
 
 import { GroupActionDialog } from "@/components/groupactiondialog"
@@ -14,8 +16,34 @@ interface SidebardProps {
     fetchData: FetchData
 }
 
-const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: SidebardProps) => {
-    const user = signedInUser;
+import { useSession } from 'next-auth/react';
+
+
+const Sidebar = () => {
+    const { data: session, status } = useSession();
+
+    const signedInUser = session?.user as User;
+
+
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [groups, setGroups] = useState<Group[]>([]);
+
+    const handleTaskCreated: HandleTaskCreated = (newTask) => {
+        setTasks((prevTasks: Task[]) => [...prevTasks, newTask]);
+    };
+
+    useEffect(() => {
+        const fetchGroupData = async () => {
+            const response = await fetch(`/api/user/groups/${signedInUser.id}`);
+            const data = await response.json();
+            const groupData = data.groups;
+            setGroups(groupData);
+        };
+        fetchGroupData();
+
+    }, [signedInUser]);
+
+
 
     const [activeGroupId, setActiveGroupId] = useState<number | null>(null);
 
@@ -26,7 +54,6 @@ const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: SidebardPro
     }, [groups, activeGroupId]);
 
     const handleGroupClick = (groupId: number) => {
-        fetchData(groupId);
         setActiveGroupId(groupId);
     }
 
@@ -36,7 +63,6 @@ const Sidebar = ({ signedInUser, groups, onTaskCreated, fetchData }: SidebardPro
                 <div className="title">Groups</div>
                 <GroupActionDialog
                     user={signedInUser}
-                    onTaskCreated={onTaskCreated}
                 />
 
             </div>
