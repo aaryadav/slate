@@ -27,7 +27,7 @@ const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
     const createGroup = async () => {
         const adminId = user.id;
 
-        const response = await fetch('/api/group/new', {
+        const response = await fetch('/api/v2/groups', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
 
         console.log(userId);
         console.log(inviteKey);
-        const response = await fetch('/api/group/join', {
+        const response = await fetch('/api/v2/groups/join', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

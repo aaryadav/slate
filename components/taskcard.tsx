@@ -50,7 +50,7 @@ const TaskCard = ({ user, signedInUser, onTaskCreated }: TaskCardProps) => {
     const [mood, setMood] = useState<UserMood>(user.mood);
 
     const handleMoodUpdate = async (newMood: UserMood) => {
-        const response = await fetch(`/api/mood/${user.id}`, {
+        const response = await fetch(`/api/v2/users/${user.id}/mood`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

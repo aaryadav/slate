@@ -71,7 +71,7 @@ const AddTaskDialog = ({ user, onTaskCreated }: AddTaskDialogProps) => {
         const ownerId = user.id;
         const groupId = 1;
 
-        const response = await fetch('/api/task/new', {
+        const response = await fetch('/api/v2/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -49,7 +49,7 @@ export default function Kanban({ params }: KanbanProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`/api/user/tasks/${ownerId}?sort=all`);
+      const response = await fetch(`/api/v2/users/${ownerId}/tasks?sort=all`);
       const data = await response.json();
       setGroupedTasks(data.groupedTasks);
     };

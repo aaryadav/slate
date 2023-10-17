@@ -40,7 +40,7 @@ const EditTaskDialog = ({ page, task, onTaskCreated }: any) => {
     };
 
     const handleTaskUpdate = async () => {
-        const response = await fetch(`/api/task/${task.id}`, {
+        const response = await fetch(`/api/v2/tasks/${task.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const EditTaskDialog = ({ page, task, onTaskCreated }: any) => {
 
     const handleTaskDeletion = async () => {
         const taskId = task.id;
-        const response = await fetch(`/api/task/${taskId}`, {
+        const response = await fetch(`/api/v2/tasks/${taskId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

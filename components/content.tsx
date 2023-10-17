@@ -33,7 +33,7 @@ const Content = ({ signedInUser }: ContentProps) => {
 	const fetchData: FetchData = async (groupId) => {
 		try {
 			console.log(`Requesting Data... ${groupId}`)
-			const response = await fetch(`/api/group/${groupId}`);
+			const response = await fetch(`/api/v2/groups/${groupId}/users`);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
@@ -49,7 +49,7 @@ const Content = ({ signedInUser }: ContentProps) => {
 
 	useEffect(() => {
 		const fetchGroupData = async () => {
-			const response = await fetch(`/api/user/groups/${signedInUser.id}`);
+			const response = await fetch(`/api/v2/users/${signedInUser.id}/groups`);
 			const data = await response.json();
 			const groupData = data.groups;
 			setGroups(groupData);

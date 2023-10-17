@@ -34,7 +34,7 @@ const Sidebar = () => {
 
     useEffect(() => {
         const fetchGroupData = async () => {
-            const response = await fetch(`/api/user/groups/${signedInUser.id}`);
+            const response = await fetch(`/api/v2/users/${signedInUser.id}/groups`);
             const data = await response.json();
             const groupData = data.groups;
             setGroups(groupData);
