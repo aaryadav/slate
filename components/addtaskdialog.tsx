@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react';
 
 import {
@@ -41,9 +42,6 @@ const AddTaskDialog = ({ user, onTaskCreated }: AddTaskDialogProps) => {
         tomorrow.setDate(today.getDate() + 1);
         return tomorrow;
     });
-
-    console.log('In Parent: ', dueAt);
-
 
     const [open, setOpen] = useState(false);
 
