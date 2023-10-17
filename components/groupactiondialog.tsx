@@ -19,7 +19,7 @@ interface GroupActionDialogProps {
 const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
 
     const [name, setName] = useState('');
-    const [inviteKey, setinviteKey] = useState('');
+    const [inviteCode, setinviteCode] = useState('');
 
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
@@ -44,13 +44,13 @@ const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
         const userId = user.id;
 
         console.log(userId);
-        console.log(inviteKey);
+        console.log(inviteCode);
         const response = await fetch('/api/v2/groups/join', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userId, inviteKey }),
+            body: JSON.stringify({ userId, inviteCode }),
         });
 
         const responseData = await response.json();
@@ -59,7 +59,6 @@ const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-
             <DialogTrigger>
                 <div className="option rounded-full p-2 bg-indigo-100">
                     <Plus className='text-indigo-500' />
@@ -81,8 +80,8 @@ const GroupActionDialog = ({ user }: GroupActionDialogProps) => {
                 <br />OR <br />
                 <Input
                     placeholder="Join using invite code"
-                    value={inviteKey}
-                    onChange={(e) => { setinviteKey(e.target.value) }}
+                    value={inviteCode}
+                    onChange={(e) => { setinviteCode(e.target.value) }}
                 />
                 <Button
                     variant={"outline"}

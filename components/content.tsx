@@ -33,6 +33,7 @@ const Content = ({ signedInUser }: ContentProps) => {
 	const fetchData: FetchData = async (groupId) => {
 		try {
 			console.log(`Requesting Data... ${groupId}`)
+			console.log(`/api/v2/groups/${groupId}/users`)
 			const response = await fetch(`/api/v2/groups/${groupId}/users`);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');

@@ -1,22 +1,25 @@
 import { type NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
-
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
-const generateInviteCode = (name: any) => {
+const generateInviteCode = (name: string) => {
     const inviteCodeBase = name.split(' ').join('').toLowerCase();
     const randomNumber = Math.floor(Math.random() * 9000) + 1000;
 
     return `${inviteCodeBase}-${randomNumber}`;
 }
 
-export async function POST(request: Request) {
-
-    const { name, adminId } = await request.json()
+export async function POST(request: NextRequest) {
 
     try {
+        const { name, adminId } = await request.json()
+
+        // Validate inputs
+        if (!name || !adminId) {
+            return Response.json({ error: "Invalid inputs" }, { status: 400 });
+        }
+
         const inviteCode = generateInviteCode(name);
 
         // Create a new group
@@ -33,11 +36,10 @@ export async function POST(request: Request) {
             },
         });
 
-        return NextResponse.json({ newGroup });
-
+        return Response.json({ newGroup }, { status: 201 });
 
     } catch (error) {
         console.error('Error creating a new group: ', error);
-        throw error;
+        return Response.json({ error: "Failed to create group" }, { status: 500 });
     }
 }

@@ -1,14 +1,17 @@
-import { NextResponse } from 'next/server'
-
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
 
-    const { userId, inviteCode } = await request.json()
-
     try {
+        const { userId, inviteCode } = await request.json()
+
+        // Validate inputs
+        if (!userId || !inviteCode) {
+            return Response.json({ error: "Invalid inputs" }, { status: 400 });
+        }
+
         // Find group by invite code
         const group = await prisma.group.findUnique({
             where: {
@@ -16,9 +19,25 @@ export async function POST(request: Request) {
             },
         });
 
-        // If no group found, throw an error
+        // If no group found, return an error
         if (!group) {
-            throw new Error('Group not found');
+            return Response.json({ error: "Group not found" }, { status: 404 });
+        }
+
+        // Check if user is already a member of the group
+        const isMember = await prisma.user.findFirst({
+            where: {
+                id: userId,
+                groups: {
+                    some: {
+                        id: group.id,
+                    },
+                },
+            },
+        });
+
+        if (isMember) {
+            return Response.json({ error: "User is already a member of this group" }, { status: 400 });
         }
 
         // Add user to group
@@ -35,11 +54,10 @@ export async function POST(request: Request) {
             },
         });
 
-        return NextResponse.json({ group });
-
+        return Response.json({ group });
 
     } catch (error) {
         console.error('Error joining the group: ', error);
-        throw error;
+        return Response.json({ error: "Failed to join group" }, { status: 500 });
     }
 }

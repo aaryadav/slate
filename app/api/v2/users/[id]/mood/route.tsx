@@ -1,21 +1,28 @@
-import { NextResponse } from 'next/server'
-
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+const handleError = (error: any, message: string) => {
+    console.error(message, error);
+    return Response.json({ error: message }, { status: 500 });
+};
+
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
-    const userId = params.id;
-    const { mood } = await request.json();
+    try {
+        const { id } = params;
+        const { mood } = await request.json();
 
-    const updatedUser = await prisma.user.update({
-        where: {
-            id: userId
-        },
-        data: {
-            mood: mood
+        const updatedUser = await prisma.user.update({
+            where: { id },
+            data: { mood }
+        });
+
+        if (!updatedUser) {
+            return Response.json({ error: 'User not found' }, { status: 404 });
         }
-    });
 
-    return NextResponse.json({ updatedUser });
+        return Response.json({ updatedUser });
+    } catch (error) {
+        return handleError(error, 'Error updating user mood');
+    }
 }
